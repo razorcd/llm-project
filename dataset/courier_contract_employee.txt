@@ -1,0 +1,49 @@
+Employee Courier Contract
+
+This Employee Contract ("Contract") is made and entered into as of 
+$CONTRACT_DATE
+, by and between iDelivery ("Company"), and 
+
+$COURIER_NAME
+, an individual with a mailing address of 
+
+$COURIER_ADDRESS
+ ("Employee").
+
+1. Position and Responsibilities
+The Employee is hired as a Courier. The Employee's responsibilities include the timely and safe delivery of food and/or goods from restaurants to customers as directed by the Company. The Employee is required to follow all operational instructions provided by the Company.
+
+2. Term of Employment
+This Contract is effective as of $CONTRACT_DATE and shall continue until terminated in accordance with the provisions of this Contract and applicable labor laws.
+
+3. Compensation and Benefits
+The Company agrees to pay the Employee a wage of 20 euro for all hours worked. All wages, including overtime, will be paid on a monthly basis. The Company will handle all applicable tax withholdings, including income tax and social security contributions, in accordance with federal and local laws. The Employee is also entitled to paid sick leave, paid holiday leave, and pension contributions as required by law.
+
+4. Working Hours and Scheduling
+The Employee's working hours will be specified in a separate schedule provided by the Company. The Company retains the right to modify the schedule based on operational needs, with reasonable notice to the Employee.
+
+5. Equipment and Uniform
+The Company will provide the Employee with all necessary equipment to perform their duties, including a branded uniform and an insulated delivery bag. This equipment remains the property of the Company and must be returned upon termination of employment.
+
+6. Confidentiality and Data Protection
+The Employee agrees to maintain the confidentiality of all Company business information, including customer data, trade secrets, and operational processes, both during and after the term of this Contract. The Employee must handle all personal data in accordance with applicable data protection laws.
+
+7. Termination of Employment
+This Contract may be terminated by either party by providing written notice to the other party. The notice period for termination is in accordance with applicable national labor laws. The Company reserves the right to terminate employment immediately for serious misconduct.
+
+8. Governing Law
+This Contract is governed by and construed in accordance with the laws of the country where the services are performed (Germany, Netherlands, or UK).
+
+9. Entire Agreement
+This Contract constitutes the entire agreement between the parties and supersedes all prior agreements, understandings, and negotiations.
+
+IN WITNESS WHEREOF, the parties have executed this Contract as of the date first above written.
+
+iDelivery
+Name: Lars Ulrich
+Title: Hiring Manager
+Date: $CONTRACT_DATE
+
+$COURIER_NAME
+Title: Courier
+Date: $CONTRACT_DATE
