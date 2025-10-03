@@ -5,11 +5,13 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-jupyter = "*"
-ipykernel = "*"
 openai = "*"
+qdrant_client = "*"
+fastembed = "*"
 
 [dev-packages]
+jupyter = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.10"
