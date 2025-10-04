@@ -17,6 +17,8 @@ services:
       - "9696:9696"
     depends_on:
       - qdrant
+      - grafana
+      - postgres
     environment:
       - TOKENIZERS_PARALLELISM=false
       - QD_SERVER=http://qdrant:6333
@@ -24,3 +26,26 @@ services:
     # volumes:
     #   - ./tmp_tinydb_storage:./tmp_tinydb_storage:z
     # restart: unless-stopped
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana_storage:/var/lib/grafana:z
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    # restart: unless-stopped
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: monitoring_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+

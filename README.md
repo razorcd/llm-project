@@ -121,8 +121,9 @@ $ curl --request POST 'http://127.0.0.1:5000/feedback' \
 - [x] implement evaluation RAG
 - [x] evaluation of different LLMs for RAG
 - [x] put all code behind an API
+- [ ] add live evaluation
 - [ ] add monitoring
-- [ ] dockerise application
+- [x] dockerise application
 - [ ] add better logging
 
 Optional:
