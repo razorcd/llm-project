@@ -25,6 +25,12 @@ Tech:
 5. `python -m ipykernel install --user --name=my_openai_env --display-name="OpenAI Project"`
 6. run `jupyter notebook`
 7. in Jupyter notebook select Python kernel "OpenAI Project"
+5. add your OpenAI API key to `keys_secret.py`
+
+### Evaluation retrieval
+
+- present in `evaluation-retrieval.ipynb`
+- results: `{'hit_rate': 0.81, 'mrr': 0.43}`
 
 ### TODO:
 

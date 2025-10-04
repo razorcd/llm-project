@@ -1,1 +1,1 @@
-openai_api_key = "sk-proj-xxxxxxxxxxx"
+openai_api_key = "sk-proj-xxxxx"
