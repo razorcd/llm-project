@@ -4,15 +4,15 @@ LLM capstone project for the LLM training
 ### Project description
 Support agent for couriers of a food delivery company called iDelivery. The support agent is integrated with AI, uses a FAQ dataset and also knows about each courier profile.
 
-Tech:
-- courier FAQ are stored in Qdrant vector DB
-- courier profiles are stored in TinyDb NoSql DB
-- AI integration is done with OpenAI
-
 ### Architecture design
 ![Architecture design](architecture_design.png)
 
+### Technolofgies
 
+- Qdrant vector DB to store FAQ data
+- TinyDB NoSql DB to store Courier profile data
+- OpenAi as LLM for RAG AI integration
+- Flask as API server
 
 ### Running the Jupyter notebooks locally
 
@@ -76,6 +76,30 @@ Run commands from root folder:
 - fill in `app/keys_secret.py` with the correct secrets
 - run `export TOKENIZERS_PARALLELISM=false` to disable now noisy warning
 -  `python app/ingest.py` to ingest FAQ and Courier profile data to DBs using
+- `python app/server.py` to start API server
+- run curl commands to interact with entire system:
+```sh
+$ curl --request POST 'http://127.0.0.1:5000/question' \
+--header 'Content-Type: application/json' \
+-d '{"question": "Can I keep the provided bike?", "courier_id": 0}'
+
+{
+  "answer": "No, you cannot keep the provided bike. The company provides the bike for your use while working, but it must be returned when you are no longer employed or no longer require it for deliveries.",
+  "conversation_id": "f22806b91d8845ce86c19897a9eea344"
+}
+
+```
+
+```sh
+$ curl --request POST 'http://127.0.0.1:5000/feedback' \
+--header 'Content-Type: application/json' \
+-d '{"conversation_id": "11111111", "positive": true, "feedback": "Good"}'
+
+{
+  "message": "Feedback received"
+}
+
+```
 
 ### TODO:
 
@@ -91,8 +115,10 @@ Run commands from root folder:
 - [x] hyperparameter tuning for evaluation retrieval
 - [x] implement evaluation RAG
 - [x] evaluation of different LLMs for RAG
-- [ ] put all code behind an API
+- [x] put all code behind an API
+- [ ] add monitoring
 - [ ] dockerise application
+- [ ] add better logging
 
 Optional:
 - [ ] use LLM to ask for Contract data when needed
