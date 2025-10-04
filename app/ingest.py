@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 from pathlib import Path
 from qdrant_client import QdrantClient, models
 

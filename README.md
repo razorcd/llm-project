@@ -72,6 +72,9 @@ Run commands from root folder:
 - `pipenv install` to install all dependencies
 - Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
 - Qdrant UI: `http://localhost:6333/dashboard#/collections`
+- copy and rename `keys_secret.py.tmp` to `app/keys_secret.py`
+- fill in `app/keys_secret.py` with the correct secrets
+- run `export TOKENIZERS_PARALLELISM=false` to disable now noisy warning
 -  `python app/ingest.py` to ingest FAQ and Courier profile data to DBs using
 
 ### TODO:

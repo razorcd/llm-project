@@ -5,10 +5,11 @@ name = "pypi"
 
 [packages]
 pandas = "*"
+numpy = "*"
 openai = "*"
 qdrant_client = "*"
+tinydb = "*"
 fastembed = "*"
-numpy = "*"
 
 [dev-packages]
 jupyter = "*"
