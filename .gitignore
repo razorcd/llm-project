@@ -1,5 +1,5 @@
 tmp_qdrant_storage/*
-secretss/
+secrets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
