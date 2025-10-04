@@ -32,19 +32,36 @@ Tech:
 - present in `evaluation-retrieval.ipynb`
 - initial evaluation results using default query parameters: `{'hit_rate': 0.81, 'mrr': 0.43}`
 - after evaluating multiple query parameter combinations, results have improuved to:
-`{'hit_rate': 0.94, 'mrr': 0.862}` using params: `'score_threshold': np.float64(0.7),'limit': np.int64(5)}`
+`{'hit_rate': 0.94, 'mrr': 0.862}` using params: `'score_threshold': 0.7,'limit': 5}`
 
 ### Evaluation RAG
 
-I used OpenAI 3.5 turbo to evaluate the quality of the LLM answer based on the provided template with FAQ answers as context and courier profile.
+Evaluation was done by sending the question, LLM answer and correct answer to LLM using OpenAI 3.5 Turbo.
 
-- present in `evaluation-RAD.ipynb`
-- results on 100 evaluated records: 
-    ```
-    RELEVANT           53
-    PARTLY_RELEVANT    39
-    NON_RELEVANT        8
-    ```
+I evaluated generating the LLM answers separately with `gpt-3.5-turbo`, `gpt-4o-mini` and `gpt-4o`.
+LLM answer was generated based on the provided prompt template with FAQ answers as context and the courier profile.
+
+- evaluation code is present in `evaluation-RAD.ipynb`
+- evaluation results based on 100 records: 
+    - with `gpt-3.5-turbo`:
+        ```
+        PARTLY_RELEVANT    52
+        RELEVANT           37
+        NON_RELEVANT       11
+        ```
+- with `gpt-4o-mini`:
+        ```
+        RELEVANT           55
+        PARTLY_RELEVANT    35
+        NON_RELEVANT       10
+        ```
+- with `gpt-4o`:
+        ```
+        RELEVANT           51
+        PARTLY_RELEVANT    40
+        NON_RELEVANT        9
+
+        ```
 
 
 ### TODO:
