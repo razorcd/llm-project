@@ -70,13 +70,15 @@ Run commands from root folder:
 - `pip install pipenv`
 - `pipenv shell`
 - `pipenv install` to install all dependencies
+- optionally run `pipenv requirements > requirements.txt` to regenerate the requirements.txt which is used in the dockerised version of this app
 - Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
 - Qdrant UI: `http://localhost:6333/dashboard#/collections`
 - copy and rename `keys_secret.py.tmp` to `app/keys_secret.py`
 - fill in `app/keys_secret.py` with the correct secrets
 - run `export TOKENIZERS_PARALLELISM=false` to disable now noisy warning
 -  `python app/ingest.py` to ingest FAQ and Courier profile data to DBs using
-- `python app/server.py` to start API server
+- start API server running one of:
+    - `gunicorn --bind 0.0.0.0:9696 --chdir=app server:app`
 - run curl commands to interact with entire system:
 ```sh
 $ curl --request POST 'http://127.0.0.1:5000/question' \
@@ -87,7 +89,6 @@ $ curl --request POST 'http://127.0.0.1:5000/question' \
   "answer": "No, you cannot keep the provided bike. The company provides the bike for your use while working, but it must be returned when you are no longer employed or no longer require it for deliveries.",
   "conversation_id": "f22806b91d8845ce86c19897a9eea344"
 }
-
 ```
 
 ```sh
@@ -98,8 +99,12 @@ $ curl --request POST 'http://127.0.0.1:5000/feedback' \
 {
   "message": "Feedback received"
 }
-
 ```
+### Run dockerised verion
+
+- `docker-compose up --build`
+- run the `curl` commands from above
+
 
 ### TODO:
 

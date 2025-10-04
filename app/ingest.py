@@ -3,6 +3,8 @@ import numpy as np
 from tinydb import TinyDB
 from pathlib import Path
 from qdrant_client import QdrantClient, models
+import os
+
 
 def ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name):
     couriers_faq_df = pd.read_csv(source_faq_data_file)
@@ -132,16 +134,25 @@ def delete_similar_faq_data(qd_client, collection_name):
     else:
         print("No FAQ duplicates found above the threshold.")
 
-# Ingest FAQ data to Qdrant DB
+
+QD_SERVER = os.environ.get("QD_SERVER", "localhost:6333")
+print(f"Using Qdrant server at: {QD_SERVER}")
+TINY_DB_FILE = "tmp_tinydb_storage/courier_profiles_db.json"
+print(f"Using TinyDB file: {TINY_DB_FILE}")
+
+
+print("Ingest FAQ data to Qdrant DB")
 source_faq_data_file = "dataset/couriers_faq.csv"
-db_server = "http://localhost:6333"
+db_server = QD_SERVER
 collection_name = "courier_faq"
 
 qd_client = ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name)
 delete_similar_faq_data(qd_client, collection_name)
 
-# Ingest Courier profiles to TinyDB
+print("Ingest Courier profiles to TinyDB")
 source_courier_profile_file = "dataset/courier_profiles.csv"
-db_file_store = "tmp_tinydb_storage/courier_profiles_db.json"
+db_file_store = TINY_DB_FILE
 
 tinydb = ingest_courier_profiles_to_db(source_courier_profile_file, db_file_store)
+
+print("Ingestion completed.")
