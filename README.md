@@ -14,7 +14,7 @@ Tech:
 
 
 
-### Running the project locally
+### Running the Jupyter notebooks locally
 
 1. use Python v3.10.x
 1. `pip install pipenv`
@@ -63,6 +63,16 @@ LLM answer was generated based on the provided prompt template with FAQ answers 
 
         ```
 
+### Running the Python APP locally
+
+Run commands from root folder:
+- use Python v3.10.x
+- `pip install pipenv`
+- `pipenv shell`
+- `pipenv install` to install all dependencies
+- Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
+- Qdrant UI: `http://localhost:6333/dashboard#/collections`
+-  `python ingest.py` to ingest FAQ and Courier profile data to DBs using
 
 ### TODO:
 
