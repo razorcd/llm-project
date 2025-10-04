@@ -104,19 +104,20 @@ class Rag:
 
         return answer_llm
 
-question = "Can I deliver alcohol with my bike?"
+# question = "Can I deliver alcohol with my bike?"
+# courier_id = 0
 
-faq_db = FaqRepository("localhost:6333", "courier_faq")
-related_faq = faq_db.vector_search(question, "DE", 0.7, 5)
-# print(related_faq)
+# faq_db = FaqRepository("localhost:6333", "courier_faq")
+# related_faq = faq_db.vector_search(question, "DE", 0.7, 5)
+# # print(related_faq)
 
-db_file_store = "tmp_tinydb_storage/courier_profiles_db.json"
-tinydb = TinyDB(db_file_store)
-courier = tinydb.search(Query().index == 0)[0]
-courier['age'] = helpers.get_age_by_birthdate(courier['date_of_birth'])
+# db_file_store = "tmp_tinydb_storage/courier_profiles_db.json"
+# tinydb = TinyDB(db_file_store)
+# courier = tinydb.search(Query().index == courier_id)[0]
+# courier['age'] = helpers.get_age_by_birthdate(courier['date_of_birth'])
 
-rag = Rag("gpt-4o-mini")
-llm_answer = rag.get_llm_answer(question, courier, related_faq)
+# rag = Rag("gpt-4o-mini")
+# llm_answer = rag.get_llm_answer(question, courier, related_faq)
 
-print(llm_answer)
+# print(llm_answer)
 
