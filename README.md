@@ -73,14 +73,16 @@ LLM answer was generated based on the provided prompt template with FAQ answers 
 - [x] generate Courier working contracts (employee and freelance) using AI for a file
 - [x] generate complete prompt with non private courier profile information, courier question and best matching FAQ data
 - [x] use LLM to get an answer
+- [x] generate ground truth data for evaluation
+- [x] implement evaluation retrieval
+- [x] hyperparameter tuning for evaluation retrieval
+- [x] implement evaluation RAG
+- [x] evaluation of different LLMs for RAG
+- [ ] put all code behind an API
+- [ ] dockerise application
 - [ ] use LLM to ask for Contract data when needed
 - [ ] use LLM to ask for more profile information when needed by queying the NoSql DB
 - [ ] use LLM to ask for more FAQ data when needed by queying the Vector DB
 - [ ] use LLM to update Courier profile 
 - [ ] use LLM to add new questions and answers to the FAQ DB
 - [ ] add chat history on demand to improuve prompt accuracy
-- [x] generate ground truth data for evaluation
-- [ ] implement evaluation retrieval
-- [ ] implement evaluation RAG
-- [ ] put all code behind an API
-- [ ] dockerise application

@@ -8,10 +8,12 @@ pandas = "*"
 openai = "*"
 qdrant_client = "*"
 fastembed = "*"
+numpy = "*"
 
 [dev-packages]
 jupyter = "*"
 ipykernel = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.10"
