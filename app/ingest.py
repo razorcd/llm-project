@@ -27,7 +27,7 @@ def ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name):
         qd_client.delete_collection(collection_name=collection_name)
 
 
-    qd_client.recreate_collection(
+    qd_client.create_collection(
         collection_name=collection_name,
         vectors_config=models.VectorParams(
             size=EMBEDDING_DIMENSIONALITY,
@@ -53,7 +53,7 @@ def ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name):
         )
         points.append(point)
 
-    print("Inserting " + str(len(points)) + " points.")
+    print("Inserting " + str(len(points)) + " FAQ points.")
 
     qd_client.upsert(
         collection_name=collection_name,
@@ -72,10 +72,65 @@ def ingest_courier_profiles_to_db(source_courier_profile_file, db_file_store):
     courier_profiles_db_file = Path(db_file_store)
     courier_profiles_db_file.unlink(missing_ok=True)
     db = TinyDB(courier_profiles_db_file)
+    
+    print("Inserting " + str(len(couriers_profiles_df)) + " courier profiles points in NoSql DB.")
     db.insert_multiple(couriers_profiles_df.to_dict('records'))
 
     return db
 
+def delete_similar_faq_data(qd_client, collection_name):
+    ### Delete similar questions based on high cosine similarity.
+    ### Run 3 times for best result.
+
+    all_points = list(qd_client.scroll(
+        collection_name=collection_name,
+        with_vectors=True,
+        limit=100000
+    )[0])
+
+    points_to_delete = set()
+    processed_points = set()
+
+    for point in all_points:
+        point_id = point.id
+
+        if point_id in processed_points:
+            continue 
+
+        #Search for nearest neighbors using the current point's vector
+        search_results = qd_client.query_points(
+            collection_name=collection_name,
+            query=point.vector,
+            limit=25,          
+            score_threshold=0.9999, 
+        )
+
+        #Identify duplicates (points with high similarity)
+        duplicates = []
+        for hit in search_results.points:
+            if hit.id != point_id:
+                duplicates.append(hit.id)
+
+        #Mark the original point as processed and duplicates for deletion
+        processed_points.add(point_id)
+        for dup_id in duplicates:
+            points_to_delete.add(dup_id)
+            processed_points.add(dup_id) 
+
+
+    # Convert the set of IDs to a list
+    deletion_list = list(points_to_delete)
+
+    if deletion_list:
+        qd_client.delete(
+            collection_name=collection_name,
+            points_selector=models.PointIdsList(
+                points=deletion_list
+            )
+        )
+        print(f"Successfully deleted {len(deletion_list)} duplicate FAQ points in vector DB.")
+    else:
+        print("No FAQ duplicates found above the threshold.")
 
 # Ingest FAQ data to Qdrant DB
 source_faq_data_file = "dataset/couriers_faq.csv"
@@ -83,6 +138,7 @@ db_server = "http://localhost:6333"
 collection_name = "courier_faq"
 
 qd_client = ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name)
+delete_similar_faq_data(qd_client, collection_name)
 
 # Ingest Courier profiles to TinyDB
 source_courier_profile_file = "dataset/courier_profiles.csv"

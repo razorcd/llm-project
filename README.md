@@ -72,7 +72,7 @@ Run commands from root folder:
 - `pipenv install` to install all dependencies
 - Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
 - Qdrant UI: `http://localhost:6333/dashboard#/collections`
--  `python ingest.py` to ingest FAQ and Courier profile data to DBs using
+-  `python app/ingest.py` to ingest FAQ and Courier profile data to DBs using
 
 ### TODO:
 
@@ -90,6 +90,8 @@ Run commands from root folder:
 - [x] evaluation of different LLMs for RAG
 - [ ] put all code behind an API
 - [ ] dockerise application
+
+Optional:
 - [ ] use LLM to ask for Contract data when needed
 - [ ] use LLM to ask for more profile information when needed by queying the NoSql DB
 - [ ] use LLM to ask for more FAQ data when needed by queying the Vector DB
