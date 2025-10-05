@@ -56,28 +56,30 @@ def handle_question():
         "answer": answer_data["answer"],
         "model_used": answer_data["model_used"],
     }
-    
+
     logger.info(f"/question response: {response}")
     return jsonify(response, 200)
 
 """
 curl --request POST 'http://127.0.0.1:5000/feedback' \
 --header 'Content-Type: application/json' \
--d '{"conversation_id": "11111111", "positive": true, "feedback": "Good"}'
+-d '{"conversation_id": "11111111", "feedback": 1}'
 """
 @app.route('/feedback', methods=['POST'])
 def handle_feedback():
     data = request.json
     conversation_id = data.get('conversation_id')
-    positive = data.get('positive')
     feedback = data.get('feedback')
 
-    if not conversation_id or positive is None or feedback is None:
-        return jsonify({"error": "Missing 'conversation_id', 'positive' or 'feedback' in request body"}), 400
+    if not conversation_id or feedback is None:
+        return jsonify({"error": "Missing 'conversation_id' or 'feedback' in request body"}), 400
 
-    # store the feedback
+    conversationRepository.save_feedback(
+        conversation_id=conversation_id,
+        feedback=feedback,
+    )
 
-    print(f"Received feedback for conversation {conversation_id}: {feedback}")
+    print(f"Received feedback for conversation {conversation_id}: {feedback})")
 
     response = {"message": "Feedback received"}
     logger.info(f"/feedback response: {response}")
