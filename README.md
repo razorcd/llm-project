@@ -99,6 +99,7 @@ NON_RELEVANT        5
 - open monitoring in browser: http://localhost:3000/d/automatedsetupdashboard/courier-support-agent (credentials are admin:admin)
 - open Qdrant UI in browser: http://localhost:6333/dashboard#/collections
 - to start app with dependecies again but without resetting the DB and montiring configs, edit he Dockerfile: `"setup_dbs=true", "setup_grafana=true"` flags. Setting these to false after the first initialisation will aloow you to preserve data between restarts.
+- to reset the DBs, first stop containers with `podman-compose down` than run `rm -rf tmp_datastore/tmp_qdrant_storage && rm -rf tmp_datastore/postgres_data && rm -rf tmp_datastore/grafana_storage`
 
 Request:
 ```sh
@@ -170,6 +171,10 @@ It is recommanded to follow the sections that start entire application with depe
 - setup new datasource for Postgres with host `postgres` and credentials `user` and `user` and disable TLS.
 - take the ID of the new datascoruce (see ID in URL) and replace all the `ef04twmg20feoa` in `grafana/dashboard.json` to the new ID.
 - create new dashboard in grafana UI by importing the updated `grafana/dashboard.json`
+
+#### Links:
+- Grafana API docs: https://grafana.com/docs/grafana/latest/developers/http_api/data_source/
+- Datatalks zoomcamp: https://github.com/DataTalksClub/llm-zoomcamp/tree/main
 
 
 ### TODO:
