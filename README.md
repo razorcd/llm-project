@@ -27,7 +27,6 @@ The conversation always focuses on delivery topics due to the context the system
 
 ![conversation](conversation.png)
 
-
 ### Technolofgies
 
 - Qdrant vector DB to store FAQ data
