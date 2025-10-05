@@ -5,15 +5,18 @@ from openai import OpenAI
 import keys_secret
 import helpers
 from faq_repository import FaqRepository
+from rag_evaluation import RagEvaluation
 from time import time
 
 class Rag:
     ai_model: str
     openai_client: OpenAI
+    rag_evaluation: RagEvaluation
 
     def __init__(self, ai_model):
         self.openai_client = OpenAI(api_key=keys_secret.openai_api_key)
         self.ai_model = ai_model
+        self.rag_evaluation = RagEvaluation(ai_model)
 
     def _llm_aswer(self, prompt):
         response = self.openai_client.chat.completions.create(
@@ -69,16 +72,15 @@ class Rag:
 
         prompt = self._build_prompt(question, related_faq, courier)
         # print(prompt)
-        # print()
-        # print("LLM answer:")
         answer_llm, token_stats = self._llm_aswer(prompt)
-        # print(answer_llm)
-        relevance, rel_token_stats = {}, {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens":0} #evaluate_relevance(query, answer)
+        # print("LLM answer: ",answer_llm)
+        relevance, rel_token_stats = self.rag_evaluation.evaluate_answer(question, answer_llm)
+        # print("LLM relevance: ", relevance)
 
         openai_cost_rag = self._calculate_openai_cost(self.ai_model, token_stats)
-        # openai_cost_eval = self._calculate_openai_cost(self.ai_model, rel_token_stats)
+        openai_cost_eval = self._calculate_openai_cost(self.ai_model, rel_token_stats)
 
-        openai_cost = openai_cost_rag #+ openai_cost_eval
+        openai_cost = openai_cost_rag + openai_cost_eval
 
         answer_data = {
                 "answer": answer_llm,
@@ -96,6 +98,7 @@ class Rag:
                 "eval_total_tokens": rel_token_stats["total_tokens"],
                 "openai_cost": openai_cost,
             }
+        print(answer_data)
 
         return answer_data
     

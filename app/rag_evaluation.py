@@ -21,23 +21,22 @@ class RagEvaluation:
             messages=[{"role": "user", "content": prompt}]
         )
         
-        return response.choices[0].message.content
+        return response
 
-    def _build_prompt(self, question, faq_answer, llm_answer):
+    def _build_prompt(self, question, llm_answer):
         prompt_template = """
     You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
-    Your task is to analyze the relevance of the generated answer compared to the original answer provided.
-    Based on the relevance and similarity of the generated answer to the original answer, you will classify
+    Your task is to analyze the relevance of the generated answer compared to the question provided.
+    Based on the relevance of the generated answer you will classify
     it as "NON_RELEVANT", "PARTLY_RELEVANT", or "RELEVANT".
 
     Here is the data for evaluation:
 
-    Original Answer: {answer_orig}
-    Generated Question: {question}
+    Question: {question}
     Generated Answer: {answer_llm}
 
-    Please analyze the content and context of the generated answer in relation to the original
-    answer and provide your evaluation in parsable JSON without using code blocks:
+    Please analyze the content and context of the generated answer in relation to the question 
+    and provide your evaluation in parsable JSON without using code blocks:
 
     {{
     "Relevance": "NON_RELEVANT" | "PARTLY_RELEVANT" | "RELEVANT",
@@ -46,7 +45,6 @@ class RagEvaluation:
     """.strip()
         
         prompt = prompt_template.format(
-            answer_orig = faq_answer,
             question = question,
             answer_llm = llm_answer,
         )
@@ -54,15 +52,21 @@ class RagEvaluation:
         return prompt
 
 
-    def _evaluate_answer(self, question, faq_answer, llm_answer):
-        prompt = self.build_prompt(question, faq_answer, llm_answer)
+    def evaluate_answer(self, question, llm_answer):
+        prompt = self._build_prompt(question, llm_answer)
         # print(prompt)
-        # print()
-        answer_llm = self._llm_aswer(prompt)
-        # print("LLM evaluation answer:")
-        # print(answer_llm)
+        response = self._llm_aswer(prompt)
 
-        return json.loads(answer_llm)
+        answer_llm = response.choices[0].message.content
+        # print("LLM evaluation answer:", answer_llm)
+
+        token_stats = {
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.total_tokens,
+        }
+
+        return json.loads(answer_llm), token_stats
 
 
 # question = "Can I deliver alcohol with my bike?"
