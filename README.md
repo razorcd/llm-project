@@ -117,11 +117,16 @@ Monitoring trtacks:
 
 ![alt text](image.png)
 
-##### To setup Grafana for the running application:
+##### Manually setup Grafana for the running application:
 - open Grafana UI: http://localhost:3000
 - setup new datasource for Postgres with host `postgres` and credentials `user` and `user` and disable TLS.
 - take the ID of the new datascoruce (see ID in URL) and replace all the `ef04twmg20feoa` in `grafana/dashboard.json` to the new ID.
 - create new dashboard in grafana UI by importing the updated `grafana/dashboard.json`
+
+##### Automcatically setup Grafana for running the application:
+- ensure `docker-compose up -build` is already running. This creates a Grafana - Postgres  datasource and a monitoring dashboard with pannels.
+- open in browser `http://localhost:3000/d/automatedsetupdashboard/courier-support-agent`
+- to see monitoring data, you need to send some questions through curl requests to the application
 
 ### TODO:
 
