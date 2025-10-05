@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
-from rag import Rag, FaqRepository
-from tinydb import TinyDB, Query
+from rag import Rag
+from faq_repository import FaqRepository
+from courier_repository import CourierRepository
 import helpers
 import uuid, os, logging
 
@@ -34,8 +35,8 @@ def handle_question():
     faq_db = FaqRepository(QD_SERVER, "courier_faq")
     related_faq = faq_db.vector_search(question, "DE", 0.7, 5)
 
-    tinydb = TinyDB(TINY_DB_FILE)
-    courier = tinydb.search(Query().index == courier_id)[0]
+    courier_repo = CourierRepository(TINY_DB_FILE)
+    courier = courier_repo.search(courier_id)
     courier['age'] = helpers.get_age_by_birthdate(courier['date_of_birth'])
 
     rag = Rag("gpt-4o-mini")
