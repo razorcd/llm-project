@@ -1,7 +1,5 @@
+# Courier chat with LLM integration
 ![Courier chat with LLM integration](courier.png)
-
-# llm-project
-LLM capstone project for the LLM training
 
 ### Project description
 
