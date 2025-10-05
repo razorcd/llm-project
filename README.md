@@ -62,25 +62,24 @@ LLM answer was generated based on the provided prompt template with FAQ answers 
 
 - evaluation code is present in `evaluation-RAD.ipynb`
 - evaluation results based on 100 records: 
-    - with `gpt-3.5-turbo`:
-        ```
-        PARTLY_RELEVANT    52
-        RELEVANT           37
-        NON_RELEVANT       11
-        ```
+- with `gpt-3.5-turbo`:
+```
+PARTLY_RELEVANT    52
+RELEVANT           37
+NON_RELEVANT       11
+```
 - with `gpt-4o-mini`:
-        ```
-        RELEVANT           55
-        PARTLY_RELEVANT    35
-        NON_RELEVANT       10
-        ```
+```
+RELEVANT           55
+PARTLY_RELEVANT    35
+NON_RELEVANT       10
+```
 - with `gpt-4o`:
-        ```
-        RELEVANT           51
-        PARTLY_RELEVANT    40
-        NON_RELEVANT        9
-
-        ```
+```
+RELEVANT           51
+PARTLY_RELEVANT    40
+NON_RELEVANT        9
+```
 
 ### Running entire app using Docker
 
