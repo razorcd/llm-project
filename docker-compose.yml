@@ -20,9 +20,13 @@ services:
       - grafana
       - postgres
     environment:
-      - TOKENIZERS_PARALLELISM=false
-      - QD_SERVER=http://qdrant:6333
-      - TINY_DB_FILE=../tmp_tinydb_storage/courier_profiles_db.json
+      TOKENIZERS_PARALLELISM: false
+      QD_SERVER: http://qdrant:6333
+      TINY_DB_FILE: ../tmp_tinydb_storage/courier_profiles_db.json
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: conversations_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
     # volumes:
     #   - ./tmp_tinydb_storage:./tmp_tinydb_storage:z
     # restart: unless-stopped
@@ -41,9 +45,10 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_DB: monitoring_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: conversations_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:

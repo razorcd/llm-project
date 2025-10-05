@@ -15,7 +15,7 @@ class RagEvaluation:
         self.openai_client = OpenAI(api_key=keys_secret.openai_api_key)
         self.ai_model = ai_model
 
-    def llm_aswer(self, prompt):
+    def _llm_aswer(self, prompt):
         response = self.openai_client.chat.completions.create(
             model=self.ai_model,
             messages=[{"role": "user", "content": prompt}]
@@ -23,7 +23,7 @@ class RagEvaluation:
         
         return response.choices[0].message.content
 
-    def build_prompt(self, question, faq_answer, llm_answer):
+    def _build_prompt(self, question, faq_answer, llm_answer):
         prompt_template = """
     You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
     Your task is to analyze the relevance of the generated answer compared to the original answer provided.
@@ -54,11 +54,11 @@ class RagEvaluation:
         return prompt
 
 
-    def evaluate_answer(self, question, faq_answer, llm_answer):
+    def _evaluate_answer(self, question, faq_answer, llm_answer):
         prompt = self.build_prompt(question, faq_answer, llm_answer)
         # print(prompt)
         # print()
-        answer_llm = self.llm_aswer(prompt)
+        answer_llm = self._llm_aswer(prompt)
         # print("LLM evaluation answer:")
         # print(answer_llm)
 

@@ -3,7 +3,9 @@ import numpy as np
 from tinydb import TinyDB
 from pathlib import Path
 from qdrant_client import QdrantClient, models
+from conversation_repository import init_db
 import os
+
 
 
 def ingest_faq_data_to_db(source_faq_data_file, db_server, collection_name):
@@ -134,6 +136,9 @@ def delete_similar_faq_data(qd_client, collection_name):
     else:
         print("No FAQ duplicates found above the threshold.")
 
+print("Inisialising PostgreSQL database for conversations.")
+# os.environ['RUN_TIMEZONE_CHECK'] = '0'
+init_db()
 
 QD_SERVER = os.environ.get("QD_SERVER", "localhost:6333")
 print(f"Using Qdrant server at: {QD_SERVER}")

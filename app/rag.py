@@ -1,51 +1,12 @@
 
-from qdrant_client import QdrantClient, models
+
 from tinydb import TinyDB, Query
 from openai import OpenAI
 import keys_secret
 import helpers
-
-class FaqRepository:
-    qd_client: QdrantClient
-    collection_name: str
-    MODEL_HANDLE = "jinaai/jina-embeddings-v2-small-en"
-    # EMBEDDING_DIMENSIONALITY = 512
-    
-    def __init__(self, db_server, collection_name):
-        self.qd_client = QdrantClient(db_server)
-        self.collection_name = collection_name
-
-    def vector_search(self, question, country, score_threshold, limit):
-        # print('vector_search is called on question: '+question)
-        
-        query_points = self.qd_client.query_points(
-            collection_name=self.collection_name,
-            query=models.Document(
-                text=question,
-                model=self.MODEL_HANDLE 
-            ),
-            query_filter=models.Filter( 
-                must=[
-                    models.FieldCondition(
-                        key="country",
-                        match=models.MatchAny(any=[country, "all"] )
-                    )
-                ]
-            ),
-            score_threshold = score_threshold,
-            limit=limit,
-            with_payload=True
-        )
-
-        results = []
-        
-        for point in query_points.points:
-            results.append(point.payload)
-        
-        return results
+from faq_repository import FaqRepository
 
 class Rag:
-
     ai_model: str
     openai_client: OpenAI
 
@@ -53,7 +14,7 @@ class Rag:
         self.openai_client = OpenAI(api_key=keys_secret.openai_api_key)
         self.ai_model = ai_model
 
-    def llm_aswer(self, prompt):
+    def _llm_aswer(self, prompt):
         response = self.openai_client.chat.completions.create(
             model=self.ai_model,
             messages=[{"role": "user", "content": prompt}]
@@ -61,7 +22,7 @@ class Rag:
         
         return response.choices[0].message.content
 
-    def build_prompt(self, question, related_faq, courier):
+    def _build_prompt(self, question, related_faq, courier):
         prompt_template = """
     You are the courier suport agent of a iDelivery company that handles food delivery in Germany, Netherlands and UK. 
     The couriers working for this company are employees or freelancers. 
@@ -95,11 +56,11 @@ class Rag:
 
 
     def get_llm_answer(self, question, courier, related_faq):
-        prompt = self.build_prompt(question, related_faq, courier)
+        prompt = self._build_prompt(question, related_faq, courier)
         # print(prompt)
         # print()
         # print("LLM answer:")
-        answer_llm = self.llm_aswer(prompt)
+        answer_llm = self._llm_aswer(prompt)
         # print(answer_llm)
 
         return answer_llm
