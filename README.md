@@ -4,9 +4,11 @@
 LLM capstone project for the LLM training
 
 ### Project description
-Support agent for couriers of a food delivery company called iDelivery. The support agent is integrated with AI, uses a FAQ dataset and also knows about each courier profile.
+
+The iDelivery Courier Support Platform is a server-side application that hosts a sophisticated Conversational AI Agent for real-time engagement with food delivery personnel. This system utilizes a Retrieval-Augmented Generation (RAG) architecture, leveraging an OpenAI-powered (LLM) for natural dialogue synthesis, grounded by domain-specific knowledge of courier profile data stored in NoSql and comprehensive FAQ content stored in Vector Database. The aplication does realtime conversation evaluation and offers a dashboard for monitoring.
 
 ### Architecture design
+
 ![Architecture design](architecture_design.png)
 
 ### Technolofgies
@@ -14,7 +16,9 @@ Support agent for couriers of a food delivery company called iDelivery. The supp
 - Qdrant vector DB to store FAQ data
 - TinyDB NoSql DB to store Courier profile data
 - OpenAi as LLM for RAG AI integration
-- Flask as API server
+- OpenAi as LLM evaluator
+- Flask as API app server
+- Grafana + PostgresDb for realtime monitoring
 
 ### Running the Jupyter notebooks locally
 
@@ -41,6 +45,7 @@ Support agent for couriers of a food delivery company called iDelivery. The supp
 - initial evaluation results using default query parameters: `{'hit_rate': 0.84, 'mrr': 0.71}`
 - after evaluating multiple query parameter combinations, results have improuved to:
 `{'hit_rate': 0.94, 'mrr': 0.862}` using params: `'score_threshold': 0.7,'limit': 5}`
+
 
 ### Evaluation RAG
 
@@ -75,11 +80,11 @@ LLM answer was generated based on the provided prompt template with FAQ answers 
 
 Run commands from root folder:
 - use Python v3.10.x
-- `pip install pipenv`
+- `pip install pipenv==2025.0.4`
 - `pipenv shell`
 - `pipenv install` to install all dependencies
 - optionally run `pipenv requirements > requirements.txt` to regenerate the requirements.txt which is used in the dockerised version of this app
-- Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
+- Start Qdrant: `docker run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_datastore/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
 - Qdrant UI: `http://localhost:6333/dashboard#/collections`
 - copy and rename `keys_secret.py.tmp` to `app/keys_secret.py`
 - fill in `app/keys_secret.py` with the correct secrets
