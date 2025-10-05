@@ -1,7 +1,6 @@
-tmp_datastore/tmp_qdrant_storage/
-tmp_datastore/tmp_qdrant_storage/
-tmp_datastore/tmp_qdrant_storage/
-tmp_datastore/tmp_tinydb_storage/
+tmp_datastore/tmp_qdrant_storage/*
+tmp_datastore/tmp_qdrant_storage/*
+tmp_datastore/tmp_qdrant_storage/*
 tmp_datastore/*
 tmp_qdrant_storage/*
 keys_secret.py

@@ -9,6 +9,4 @@ COPY . .
 
 EXPOSE 9696
 
-ENTRYPOINT ["sh", "start_server.sh"]
-
-# CMD ["gunicorn", "--bind=0.0.0.0:9696", "--chdir=app", "--log-level=info", "server:app"]
+ENTRYPOINT ["bash", "start_server.sh", "setup_dbs=true", "setup_grafana=true"]

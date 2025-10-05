@@ -5,7 +5,7 @@ import sys
 
 # --- Configuration ---
 # Grafana API access details
-GRAFANA_URL = "http://localhost:3000"
+GRAFANA_URL = os.environ.get("GRAFANA_URL", "http://localhost:3000")
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
 DASHBOARD_FILE = "grafana/dashboard3.json"

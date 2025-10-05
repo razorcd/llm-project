@@ -51,14 +51,14 @@ def handle_question():
 
     response = {
         "conversation_id":conversation_id, 
-        "courier": courier,
+        # "courier": courier,
         "question": question, 
         "answer": answer_data["answer"],
         "model_used": answer_data["model_used"],
     }
 
     logger.info(f"/question response: {response}")
-    return jsonify(response, 200)
+    return jsonify(response), 200
 
 """
 curl --request POST 'http://127.0.0.1:5000/feedback' \

@@ -22,12 +22,12 @@ services:
     environment:
       TOKENIZERS_PARALLELISM: false
       QD_SERVER: http://qdrant:6333
-      TINY_DB_FILE: ../tmp_tinydb_storage/courier_profiles_db.json
+      TINY_DB_FILE: ../tmp_datastore/tmp_tinydb_storage/courier_profiles_db.json
       POSTGRES_HOST: postgres
       POSTGRES_DB: conversations_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user
-      GRAFANA_URL: http://localhost:3000
+      GRAFANA_URL: http://grafana:3000
     # volumes:
     #   - ./tmp_tinydb_storage:./tmp_tinydb_storage:z
     # restart: unless-stopped
