@@ -105,6 +105,17 @@ $ curl --request POST 'http://127.0.0.1:5000/feedback' \
 - `docker-compose up --build`
 - run the `curl` commands from above
 
+### Monitoring
+
+Application is saving conversations data in PostgresDB. Grafana is used to monitor the application in realtime.
+Monitoring trtacks:
+- courier feedback
+- LLM evaluation relevance
+- OpenAI tokens
+- OpenAI costs
+- API tesponse time (including LLM answer generation and LLM evaluation)
+
+![alt text](image.png)
 
 ### TODO:
 
@@ -121,7 +132,7 @@ $ curl --request POST 'http://127.0.0.1:5000/feedback' \
 - [x] implement evaluation RAG
 - [x] evaluation of different LLMs for RAG
 - [x] put all code behind an API
-- [ ] add live evaluation
+- [ ] add live LLM evaluation
 - [ ] add monitoring
 - [x] dockerise application
 - [ ] add better logging

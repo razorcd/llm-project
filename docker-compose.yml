@@ -27,6 +27,7 @@ services:
       POSTGRES_DB: conversations_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user
+      GRAFANA_URL: http://localhost:3000
     # volumes:
     #   - ./tmp_tinydb_storage:./tmp_tinydb_storage:z
     # restart: unless-stopped
