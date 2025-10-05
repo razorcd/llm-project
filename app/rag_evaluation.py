@@ -5,6 +5,7 @@ from openai import OpenAI
 import keys_secret
 import helpers
 from faq_repository import FaqRepository
+import json
 
 class RagEvaluation:
     ai_model: str
@@ -61,7 +62,7 @@ class RagEvaluation:
         # print("LLM evaluation answer:")
         # print(answer_llm)
 
-        return answer_llm
+        return json.loads(answer_llm)
 
 
 # question = "Can I deliver alcohol with my bike?"
@@ -71,6 +72,6 @@ class RagEvaluation:
 # rag_evaluation = RagEvaluation("gpt-4o-mini")
 # llm_eval_answer = rag_evaluation.evaluate_answer(question, faq_answer, llm_answer)
 
-# print("LLM evaluation answer:")
+# print("LLM evaluation answer:", llm_eval_answer["Relevance"])
 # print(llm_eval_answer)
 
