@@ -1,9 +1,11 @@
-# Courier chat with LLM integration
-![Courier chat with LLM integration](courier.png)
+# Courier conversation support with LLM integration
+![Courier conversation with LLM integration](courier.png)
 
 ### Project description
 
 The iDelivery Courier Support Platform is a server-side application that hosts a sophisticated Conversational AI Agent for real-time engagement with food delivery personnel. This system utilizes a Retrieval-Augmented Generation (RAG) architecture, leveraging an OpenAI-powered (LLM) for natural dialogue synthesis, grounded by domain-specific knowledge of courier profile data stored in NoSql and comprehensive FAQ content stored in Vector Database. The aplication does realtime conversation evaluation and offers a dashboard for monitoring.
+
+The input data using in this project was generated with AI. The food delivery company is called iDelveiry. Courier profiles, food delivery courier relevant FAQs and courier contracts are all fictional. You can find the generated dataset in `dataset` folder and the prompts in the `dataset/prompts` folder.
 
 ### Architecture design
 
