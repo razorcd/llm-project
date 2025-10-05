@@ -2,8 +2,8 @@
 
 from tinydb import TinyDB, Query
 from openai import OpenAI
-import keys_secret
-import helpers
+import notebooks.keys_secret as keys_secret
+import notebooks.helpers as helpers
 from faq_repository import FaqRepository
 import json
 

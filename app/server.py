@@ -3,7 +3,7 @@ from rag import Rag
 from faq_repository import FaqRepository
 from courier_repository import CourierRepository
 from conversation_repository import ConversationRepository
-import helpers
+import notebooks.helpers as helpers
 import uuid, os, logging
 
 

@@ -1,3 +1,5 @@
+![Courier chat with LLM integration](courier.png)
+
 # llm-project
 LLM capstone project for the LLM training
 
@@ -16,21 +18,27 @@ Support agent for couriers of a food delivery company called iDelivery. The supp
 
 ### Running the Jupyter notebooks locally
 
-1. use Python v3.10.x
-1. `pip install pipenv`
-1. `pipenv shell`
-2. `pipenv install` to install all dependencies
-3. Start Qdrant: `podman run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
-4. Qdrant UI: `http://localhost:6333/dashboard#/collections`
-5. `python -m ipykernel install --user --name=my_openai_env --display-name="OpenAI Project"`
-6. run `jupyter notebook`
-7. in Jupyter notebook select Python kernel "OpenAI Project"
-5. add your OpenAI API key to `keys_secret.py`
+ - use Python v3.10.x
+ - `pip install pipenv`
+ - `pipenv shell`
+ - `pipenv install` to install all dependencies
+ - Start Qdrant: `docker run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_datastore/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
+ - To access Qdrant UI open in browser: `http://localhost:6333/dashboard#/collections`
+ - `python -m ipykernel install --user --name=my_openai_env --display-name="OpenAI Project"`
+ - run `jupyter notebook`
+ - in Jupyter notebook select Python kernel "OpenAI Project"
+ - copy `notebooks/keys_secret.py.tmp` to `notebooks/keys_secret.py` and add your OpenAI API key to `keys_secret.py`
+ - run notebooks in order: 
+        - `main.ipynb`
+        - `evaluation-generating_ground_truth.ipynb`
+        - `evaluation-retrieval.ipynb`
+        - `evaluation-RAG.ipynb.ipynb`
+        
 
-### Evaluation retrieval
+### Evaluation Vector DB retrieval
 
 - present in `evaluation-retrieval.ipynb`
-- initial evaluation results using default query parameters: `{'hit_rate': 0.81, 'mrr': 0.43}`
+- initial evaluation results using default query parameters: `{'hit_rate': 0.84, 'mrr': 0.71}`
 - after evaluating multiple query parameter combinations, results have improuved to:
 `{'hit_rate': 0.94, 'mrr': 0.862}` using params: `'score_threshold': 0.7,'limit': 5}`
 
