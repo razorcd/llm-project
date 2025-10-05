@@ -7,6 +7,12 @@ The iDelivery Courier Support Platform is a server-side application that hosts a
 
 The input data using in this project was generated with AI. The food delivery company is called iDelveiry. Courier profiles, food delivery courier relevant FAQs and courier contracts are all fictional. You can find the generated dataset in `dataset` folder and the prompts in the `dataset/prompts` folder.
 
+### Conversation example
+
+The conversation always focuses on delivery topics due to the context the system is providing. Even with general offtopic questions, the conversation remains focused on the delivery context. The virtual agent remembers the past conversation context between questions, this makes conversations more humain. The fact that the virtual agent also knows some non sensitive private information about the courier makes the conversation more engaging. 
+
+![conversation](conversation.png)
+
 ### Architecture design
 
 ![Architecture design](architecture_design.png)

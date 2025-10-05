@@ -42,11 +42,11 @@ echo "Database Setup Requested: $SETUP_DBS"
 echo "Grafana Setup Requested: $SETUP_GRAFANA"
 echo "-----------------------------------------------------"
 
-if [[ "$SETUP_DBS" == "true" ]]; then
+if [ "$SETUP_DBS" == "true" ]; then
     setup_databases
 fi
 
-if [[ "$SETUP_GRAFANA" == "true" ]]; then
+if [ "$SETUP_GRAFANA" == "true" ]; then
     setup_monitoring
 fi
 
