@@ -175,6 +175,7 @@ It is recommanded to follow the sections that start entire application with depe
 #### Links:
 - Grafana API docs: https://grafana.com/docs/grafana/latest/developers/http_api/data_source/
 - Datatalks zoomcamp: https://github.com/DataTalksClub/llm-zoomcamp/tree/main
+- The other Agentic RAG Demo: https://github.com/razorcd/llm-training/tree/main/agent
 
 
 ### TODO:
