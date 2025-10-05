@@ -14,6 +14,7 @@ class ConversationRepository:
     def __init__(self):
         if self.RUN_TIMEZONE_CHECK: self.check_timezone()
 
+
     def _get_db_connection(self):
         return psycopg2.connect(
             host=os.getenv("POSTGRES_HOST", "localhost"),

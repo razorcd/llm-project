@@ -142,7 +142,7 @@ ConversationRepository().init_db()
 
 QD_SERVER = os.environ.get("QD_SERVER", "localhost:6333")
 print(f"Using Qdrant server at: {QD_SERVER}")
-TINY_DB_FILE = "tmp_tinydb_storage/courier_profiles_db.json"
+TINY_DB_FILE = "tmp_datastore/tmp_tinydb_storage/courier_profiles_db.json"
 print(f"Using TinyDB file: {TINY_DB_FILE}")
 
 

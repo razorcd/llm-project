@@ -7,7 +7,7 @@ services:
       - "6333:6333"
       - "6334:6334"
     volumes:
-      - ./tmp_qdrant_storage:/qdrant/storage:z
+      - ./tmp_datastore/tmp_qdrant_storage:/qdrant/storage:z
     # restart: unless-stopped
   app:
     build: .
@@ -37,7 +37,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana_storage:/var/lib/grafana:z
+      - ./tmp_datastore/grafana_storage:/var/lib/grafana:z
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     # restart: unless-stopped
@@ -53,7 +53,7 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./tmp_datastore/postgres_data:/var/lib/postgresql/data
 volumes:
   postgres_data:
   grafana_storage:

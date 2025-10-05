@@ -13,7 +13,7 @@ logger.setLevel(logging.DEBUG)
 app = Flask(__name__)
 QD_SERVER = os.environ.get("QD_SERVER", "localhost:6333")
 logger.info(f"Using Qdrant server at: {QD_SERVER}")
-TINY_DB_FILE = os.environ.get("TINY_DB_FILE", "../tmp_tinydb_storage/courier_profiles_db.json")
+TINY_DB_FILE = os.environ.get("TINY_DB_FILE", "../tmp_datastore/tmp_tinydb_storage/courier_profiles_db.json")
 logger.info(f"Using TinyDB file: {TINY_DB_FILE}")
 
 faq_db = FaqRepository(QD_SERVER, "courier_faq")
