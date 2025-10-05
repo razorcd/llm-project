@@ -117,6 +117,12 @@ Monitoring trtacks:
 
 ![alt text](image.png)
 
+##### To setup Grafana for the running application:
+- open Grafana UI: http://localhost:3000
+- setup new datasource for Postgres with host `postgres` and credentials `user` and `user` and disable TLS.
+- take the ID of the new datascoruce (see ID in URL) and replace all the `ef04twmg20feoa` in `grafana/dashboard.json` to the new ID.
+- create new dashboard in grafana UI by importing the updated `grafana/dashboard.json`
+
 ### TODO:
 
 - [x] generate random Delviery courier profiles unsig AI
