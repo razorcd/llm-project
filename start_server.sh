@@ -6,14 +6,12 @@ SETUP_GRAFANA="false"
 
 setup_databases() {
   echo "---Starting DB ingestion process..."
-  rm -rf tmp_datastore/tmp_qdrant_storage
-  rm -rf tmp_datastore/postgres_data
+  sleep 6
   python app/setup_dbs.py
 }
 
 setup_monitoring() {
   echo "---Starting Grafana setup process..."
-  rm -rf tmp_datastore/grafana_storage
   python grafana/init_grafana.py
 }
 

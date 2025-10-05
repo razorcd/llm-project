@@ -23,6 +23,22 @@ POSTGRES_USER = "user"
 POSTGRES_PASSWORD = "user"
 # ---------------------
 
+def delete_datascource(ds_name):
+
+    api_endpoint = f"{GRAFANA_URL}/api/datasources/name/{ds_name}"
+    auth = (GRAFANA_USER, GRAFANA_PASSWORD)
+
+    try:
+        requests.delete(
+            api_endpoint,
+            headers={"Content-Type": "application/json"},
+            auth=auth
+        )
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Error deleting data source: {e}")
+        return False
+    
+
 def create_datasource():
     """Creates a new PostgreSQL data source in Grafana."""
     print(f"Attempting to create data source: {DATASOURCE_NAME}...")
@@ -145,6 +161,7 @@ def main():
     print("--- Grafana Automated Setup Script ---")
 
     # 1. Create Data Source
+    delete_datascource(DATASOURCE_NAME)
     ds_uid = create_datasource()
     if ds_uid == None:
         print("Setup aborted due to data source creation failure.")

@@ -96,7 +96,7 @@ NON_RELEVANT        5
 
 - `docker-compose up --build` to start application with all dependencies and setup the DBs and monitoring
 - run the `curl` commands from below to interact with the server
-- open monitoring in browser: http://localhost:3000/d/automatedsetupdashboard/courier-support-agent
+- open monitoring in browser: http://localhost:3000/d/automatedsetupdashboard/courier-support-agent (credentials are admin:admin)
 - open Qdrant UI in browser: http://localhost:6333/dashboard#/collections
 - to start app with dependecies again but without resetting the DB and montiring configs, edit he Dockerfile: `"setup_dbs=true", "setup_grafana=true"` flags. Setting these to false after the first initialisation will aloow you to preserve data between restarts.
 
@@ -166,7 +166,7 @@ Monitoring tracks:
 
 ##### Manually setup Grafana for the running application: 
 It is recommanded to follow the sections that start entire application with dependencies described above. If you still need to do manual Grafana setup follow these steps:
-- open Grafana UI: http://localhost:3000
+- open Grafana UI: http://localhost:3000 
 - setup new datasource for Postgres with host `postgres` and credentials `user` and `user` and disable TLS.
 - take the ID of the new datascoruce (see ID in URL) and replace all the `ef04twmg20feoa` in `grafana/dashboard.json` to the new ID.
 - create new dashboard in grafana UI by importing the updated `grafana/dashboard.json`
