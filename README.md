@@ -125,6 +125,7 @@ Monitoring trtacks:
 
 ##### Automcatically setup Grafana for running the application:
 - ensure `docker-compose up -build` is already running. This creates a Grafana - Postgres  datasource and a monitoring dashboard with pannels.
+- run `python grafana/init_grafana.py` from root folder.
 - open in browser `http://localhost:3000/d/automatedsetupdashboard/courier-support-agent`
 - to see monitoring data, you need to send some questions through curl requests to the application
 
@@ -143,8 +144,8 @@ Monitoring trtacks:
 - [x] implement evaluation RAG
 - [x] evaluation of different LLMs for RAG
 - [x] put all code behind an API
-- [ ] add live LLM evaluation
-- [ ] add monitoring
+- [x] add LLM realtime evaluation
+- [x] add Grafana realtime monitoring
 - [x] dockerise application
 - [ ] add better logging
 
