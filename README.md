@@ -76,6 +76,46 @@ LLM answer was generated based on the provided prompt template with FAQ answers 
 
         ```
 
+### Running entire app using Docker
+
+- `docker-compose up --build` to start application with all dependencies and setup the DBs and monitoring
+- run the `curl` commands from below to interact with the server
+- open monitoring in browser: http://localhost:3000/d/automatedsetupdashboard/courier-support-agent
+- open Qdrant UI in browser: http://localhost:6333/dashboard#/collections
+- to start app with dependecies again but without resetting the DB and montiring configs, edit he Dockerfile: `"setup_dbs=true", "setup_grafana=true"` flags. Setting these to false after the first initialisation will aloow you to preserve data between restarts.
+
+Request:
+```sh
+$ curl --request POST 'http://127.0.0.1:9696/question' \
+--header 'Content-Type: application/json' \
+-d '{"question": "Can I keep the provided bike?", "courier_id": 0}'
+```
+
+Question response:
+```json
+{
+        "question":"Can I keep the provided bike?",
+        "answer":"No, you cannot keep the provided bike. The bike is for your use during deliveries and must be returned when you no longer work with iDelivery.",
+        "conversation_id":"034394fdbc0e4f4593acb12defc5a2f0",
+        "model_used":"gpt-4o-mini"
+}
+```
+
+Feedback request:
+```sh
+$ curl --request POST 'http://127.0.0.1:9696/feedback' \
+--header 'Content-Type: application/json' \
+-d '{"conversation_id": "034394fdbc0e4f4593acb12defc5a2f0", "feedback": 1}'     
+```
+
+Feedback response:
+```json
+{
+  "message": "Feedback received"
+}
+```
+
+
 ### Running the Python APP locally
 
 Run commands from root folder:
@@ -84,63 +124,37 @@ Run commands from root folder:
 - `pipenv shell`
 - `pipenv install` to install all dependencies
 - optionally run `pipenv requirements > requirements.txt` to regenerate the requirements.txt which is used in the dockerised version of this app
-- Start Qdrant: `docker run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_datastore/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant`
+- Start docker dependencies: `podman-compose up --build qdrant postgres grafana`
+<!-- `docker run --rm -p 6333:6333 -p 6334:6334 -v "$(pwd)/tmp_datastore/tmp_qdrant_storage:/qdrant/storage:z" qdrant/qdrant` -->
 - Qdrant UI: `http://localhost:6333/dashboard#/collections`
-- copy and rename `keys_secret.py.tmp` to `app/keys_secret.py`
-- fill in `app/keys_secret.py` with the correct secrets
+- copy and rename `app/keys_secret.py.tmp` to `app/keys_secret.py`
+- fill in `app/keys_secret.py` with your own OpenAI secret key
 - run `export TOKENIZERS_PARALLELISM=false` to disable now noisy warning
--  `python app/ingest.py` to ingest FAQ and Courier profile data to DBs using
+- run `python app/setup_dbs.py` to ingest FAQ and Courier profile data to DBs using
+- run `python grafana/init_grafana.py` to setup Grafana dashboard with Postgres datascource
 - start API server running one of:
     - `gunicorn --bind 0.0.0.0:9696 --chdir=app server:app`
-- run curl commands to interact with entire system:
-```sh
-$ curl --request POST 'http://127.0.0.1:5000/question' \
---header 'Content-Type: application/json' \
--d '{"question": "Can I keep the provided bike?", "courier_id": 0}'
-
-{
-  "answer": "No, you cannot keep the provided bike. The company provides the bike for your use while working, but it must be returned when you are no longer employed or no longer require it for deliveries.",
-  "conversation_id": "f22806b91d8845ce86c19897a9eea344"
-}
-```
-
-```sh
-$ curl --request POST 'http://127.0.0.1:5000/feedback' \
---header 'Content-Type: application/json' \
--d '{"conversation_id": "11111111", "positive": true, "feedback": "Good"}'
-
-{
-  "message": "Feedback received"
-}
-```
-### Run dockerised verion
-
-- `docker-compose up --build`
-- run the `curl` commands from above
+- run above `curl` commands to interact with entire system
 
 ### Monitoring
 
 Application is saving conversations data in PostgresDB. Grafana is used to monitor the application in realtime.
-Monitoring trtacks:
-- courier feedback
+Monitoring tracks:
 - LLM evaluation relevance
+- courier conversation feedback
 - OpenAI tokens
 - OpenAI costs
-- API tesponse time (including LLM answer generation and LLM evaluation)
+- API response time (including LLM answer generation and LLM evaluation)
 
-![alt text](image.png)
+![grafana](grafana.png)
 
-##### Manually setup Grafana for the running application:
+##### Manually setup Grafana for the running application: 
+It is recommanded to follow the sections that start entire application with dependencies described above. If you still need to do manual Grafana setup follow these steps:
 - open Grafana UI: http://localhost:3000
 - setup new datasource for Postgres with host `postgres` and credentials `user` and `user` and disable TLS.
 - take the ID of the new datascoruce (see ID in URL) and replace all the `ef04twmg20feoa` in `grafana/dashboard.json` to the new ID.
 - create new dashboard in grafana UI by importing the updated `grafana/dashboard.json`
 
-##### Automcatically setup Grafana for running the application:
-- ensure `docker-compose up -build` is already running. This creates a Grafana - Postgres  datasource and a monitoring dashboard with pannels.
-- run `python grafana/init_grafana.py` from root folder.
-- open in browser `http://localhost:3000/d/automatedsetupdashboard/courier-support-agent`
-- to see monitoring data, you need to send some questions through curl requests to the application
 
 ### TODO:
 
@@ -160,7 +174,7 @@ Monitoring trtacks:
 - [x] add LLM realtime evaluation
 - [x] add Grafana realtime monitoring
 - [x] dockerise application
-- [ ] add better logging
+- [x] add better logging
 
 Optional:
 - [ ] use LLM to ask for Contract data when needed
