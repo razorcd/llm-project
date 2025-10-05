@@ -3,7 +3,7 @@ import numpy as np
 from tinydb import TinyDB
 from pathlib import Path
 from qdrant_client import QdrantClient, models
-from conversation_repository import init_db
+from conversation_repository import ConversationRepository
 import os
 
 
@@ -138,7 +138,7 @@ def delete_similar_faq_data(qd_client, collection_name):
 
 print("Inisialising PostgreSQL database for conversations.")
 # os.environ['RUN_TIMEZONE_CHECK'] = '0'
-init_db()
+ConversationRepository().init_db()
 
 QD_SERVER = os.environ.get("QD_SERVER", "localhost:6333")
 print(f"Using Qdrant server at: {QD_SERVER}")

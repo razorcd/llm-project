@@ -5,6 +5,7 @@ from openai import OpenAI
 import keys_secret
 import helpers
 from faq_repository import FaqRepository
+from time import time
 
 class Rag:
     ai_model: str
@@ -20,7 +21,15 @@ class Rag:
             messages=[{"role": "user", "content": prompt}]
         )
         
-        return response.choices[0].message.content
+        answer_llm = response.choices[0].message.content
+        token_stats = {
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.total_tokens,
+        }
+
+        return answer_llm, token_stats
+        
 
     def _build_prompt(self, question, related_faq, courier):
         prompt_template = """
@@ -56,14 +65,51 @@ class Rag:
 
 
     def get_llm_answer(self, question, courier, related_faq):
+        start_time = time()
+
         prompt = self._build_prompt(question, related_faq, courier)
         # print(prompt)
         # print()
         # print("LLM answer:")
-        answer_llm = self._llm_aswer(prompt)
+        answer_llm, token_stats = self._llm_aswer(prompt)
         # print(answer_llm)
+        relevance, rel_token_stats = {}, {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens":0} #evaluate_relevance(query, answer)
 
-        return answer_llm
+        openai_cost_rag = self._calculate_openai_cost(self.ai_model, token_stats)
+        # openai_cost_eval = self._calculate_openai_cost(self.ai_model, rel_token_stats)
+
+        openai_cost = openai_cost_rag #+ openai_cost_eval
+
+        answer_data = {
+                "answer": answer_llm,
+                "model_used": self.ai_model,
+                "response_time": (time() - start_time),
+                "relevance": relevance.get("Relevance", "UNKNOWN"),
+                "relevance_explanation": relevance.get(
+                    "Explanation", "Failed to parse evaluation"
+                ),
+                "prompt_tokens": token_stats["prompt_tokens"],
+                "completion_tokens": token_stats["completion_tokens"],
+                "total_tokens": token_stats["total_tokens"],
+                "eval_prompt_tokens": rel_token_stats["prompt_tokens"],
+                "eval_completion_tokens": rel_token_stats["completion_tokens"],
+                "eval_total_tokens": rel_token_stats["total_tokens"],
+                "openai_cost": openai_cost,
+            }
+
+        return answer_data
+    
+    def _calculate_openai_cost(self, model, tokens):
+        openai_cost = 0
+
+        if model == "gpt-4o-mini":
+            openai_cost = (
+                tokens["prompt_tokens"] * 0.00015 + tokens["completion_tokens"] * 0.0006
+            ) / 1000
+        else:
+            print("Model not recognized. OpenAI cost calculation failed.")
+
+        return openai_cost
 
 # question = "Can I deliver alcohol with my bike?"
 # courier_id = 0

@@ -1,4 +1,3 @@
-
 from tinydb import TinyDB, Query
 
 class CourierRepository:
@@ -12,4 +11,4 @@ class CourierRepository:
         if result:
             return result[0]
         else:
-            return None
+            return None 
