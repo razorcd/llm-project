@@ -7,15 +7,26 @@ The iDelivery Courier Support Platform is a server-side application that hosts a
 
 The input data using in this project was generated with AI. The food delivery company is called iDelveiry. Courier profiles, food delivery courier relevant FAQs and courier contracts are all fictional. You can find the generated dataset in `dataset` folder and the prompts in the `dataset/prompts` folder.
 
+### Application flow
+
+The courier maintains a conversation by sending questions to a server and receiving relevant answers.
+
+The question is first used to search in a vector FAQ DB for more questions and answers with high similarity. The courier's profile is also loaded. An AI prompt is generated using the followings: question, non sensitive data from courier profile, similar FAQ questions as company related information for more context. The prompt is sent to the LLM to act as a virtual agent and returns relevant answer. 
+Then the courier question and the LLM answer is added to another prompt and sent to LLM again to evaluate the accuracy of the answer. This part is very important for identifying which conversations are irelevant and what kind of questions don't have enough context in from FAQ DB. 
+After all this, the system stores metadata of the conversation for monitoring and sends the answer to the courier.
+At the same time, the coutier has the option to send feedback for the conversation based on a conversation ID. This feedback information is persisted and is very useful to improuve the quality of the FAQ questions and the system overall.
+
+### Architecture design
+
+![Architecture design](architecture_design.png)
+
+
 ### Conversation example
 
 The conversation always focuses on delivery topics due to the context the system is providing. Even with general offtopic questions, the conversation remains focused on the delivery context. The virtual agent remembers the past conversation context between questions, this makes conversations more humain. The fact that the virtual agent also knows some non sensitive private information about the courier makes the conversation more engaging. 
 
 ![conversation](conversation.png)
 
-### Architecture design
-
-![Architecture design](architecture_design.png)
 
 ### Technolofgies
 
@@ -77,8 +88,8 @@ NON_RELEVANT       10
 - with `gpt-4o`:
 ```
 RELEVANT           51
-PARTLY_RELEVANT    40
-NON_RELEVANT        9
+PARTLY_RELEVANT    44
+NON_RELEVANT        5
 ```
 
 ### Running entire app using Docker
