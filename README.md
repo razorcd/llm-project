@@ -1,5 +1,5 @@
-# Courier conversation support with LLM integration
-![Courier conversation with LLM integration](courier.png)
+# Courier support agent with LLM integration
+![Courier support agent with LLM integration](courier.png)
 
 ### Project description
 
