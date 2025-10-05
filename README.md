@@ -60,7 +60,7 @@ Evaluation was done by sending the question, LLM answer and correct answer to LL
 I evaluated generating the LLM answers separately with `gpt-3.5-turbo`, `gpt-4o-mini` and `gpt-4o`.
 LLM answer was generated based on the provided prompt template with FAQ answers as context and the courier profile.
 
-- evaluation code is present in `evaluation-RAD.ipynb`
+- evaluation code is present in `evaluation-RAG.ipynb`
 - evaluation results based on 100 records: 
 - with `gpt-3.5-turbo`:
 ```
