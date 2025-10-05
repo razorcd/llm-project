@@ -29,6 +29,7 @@ The conversation always focuses on delivery topics due to the context the system
 
 ### Technolofgies
 
+- Python 3.10
 - Qdrant vector DB to store FAQ data
 - TinyDB NoSql DB to store Courier profile data
 - OpenAi as LLM for RAG AI integration
